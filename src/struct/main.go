@@ -29,5 +29,6 @@ func main() {
 	sub2.rate = 4.3
 
 	printSubInfo(sub1)
+	// printSubInfo(sub2)
 	printSubInfo(sub2)
 }
