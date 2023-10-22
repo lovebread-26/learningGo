@@ -1,0 +1,36 @@
+{
+	"blackList": [
+		{
+			"custId": "123456",
+			"orderId": "0123456",
+			"custName": "test",
+			"province": "河北",
+			"managerName": "张三",
+			"managerPhone": "130000000000"
+		},
+		{
+			"custId": "1234567",
+			"orderId": "01234567",
+			"custName": "test7",
+			"province": "河南",
+			"managerName": "李四",
+			"managerPhone": "13111111111"
+		},
+		{
+			"custId": "12345678",
+			"orderId": "012345678",
+			"custName": "test8",
+			"province": "山东",
+			"managerName": "王五",
+			"managerPhone": "13222222222"
+		},
+		{
+			"custId": "123456789",
+			"orderId": "0123456789",
+			"custName": "test9",
+			"province": "山西",
+			"managerName": "赵六",
+			"managerPhone": "13333333333"
+		}
+	]
+}

@@ -1,0 +1,10 @@
+{
+	"blackList":{
+	  "custId":"123456",
+	  "orderId":"0123456",
+	  "custName":"test",
+	  "province":"河北",
+	  "managerName":"张三",
+	  "managerPhone":"130000000000"
+	}
+}

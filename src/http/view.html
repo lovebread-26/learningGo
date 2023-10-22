@@ -1,0 +1,18 @@
+<h1> Guestbook </h1>
+
+<div>
+    <!-- X total signatures - -->
+    {{.SignatureCount}}
+    <a href="/hellob">Add Your Signature</a>
+</div>
+
+<div>
+    <!-- <p>Signatures</p>
+    <p>go</p>
+    <p>here</p> -->
+    {{range .Signatures}}
+    <p>
+        {{.}}
+    </p>
+    {{end}}
+</div>
