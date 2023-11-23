@@ -1,0 +1,5 @@
+{
+    "msg": "参数校验失败！第1条数据的effectEndTime应大于当前时间",
+    "returnCode": "1003",
+    "sysCode": 2001
+}

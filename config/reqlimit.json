@@ -1,0 +1,20 @@
+{
+	"reqlimit": [
+		{
+			"custId": "123456",
+			"maxRequests":10
+		},
+		{
+			"custId": "1000048795320000",
+			"maxRequests":5
+		},
+		{
+			"custId": "12345678",
+			"maxRequests":10
+		},
+		{
+			"custId": "123456789",
+			"maxRequests":10
+		}
+	]
+}

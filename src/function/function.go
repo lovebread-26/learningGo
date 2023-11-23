@@ -24,6 +24,14 @@ func printLiter(count float32, err error) {
 	}
 }
 
+func squares() func() int {
+	var x int
+	return func() int {
+		x++
+		return x * x
+	}
+}
+
 func main() {
 	//var num float64
 	var num = 3.1415926
@@ -45,5 +53,12 @@ func main() {
 	printLiter(count, err)
 	total += count
 
-	fmt.Printf("%.2f total liter needed", total)
+	fmt.Printf("%.2f total liter needed\n", total)
+
+	f1 := squares()
+	f2 := squares()
+	fmt.Println("f1 1", f1())
+	fmt.Println("f1 2", f1())
+	fmt.Println("f2 1", f2())
+	fmt.Println("f2 2", f2())
 }

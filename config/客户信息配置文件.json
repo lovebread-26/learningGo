@@ -1,0 +1,32 @@
+{
+    "key":"dev-op:AccessToken:395e1cfd662b49ff92bc37b6c15cab64",
+    "expireAt": 1698057253,
+    "data": {
+        "id": "a9b930c9d2634fcb84da0db1bf9266ed",
+        "data": {
+            "_id": "63b535306f1fa970ecf1addd",
+            "rid": 6,
+            "nickname": "交通银行股份有限公司太平洋信用卡中心深圳分中心(简称:交通银行太平洋信用卡中心深圳分中心)",
+            "source": "1",
+            "cust_id": "1000048795320000",
+            "customer_id": "1000048795320000",
+            "account": "nlpt_jey783",
+            "uid": "b03646008c0711eda7369372d6b211e2",
+            "create_time": "2023-01-04 16:13:36",
+            "status": "1",
+            "authLockExp": 0,
+            "lastLoginIp": "::ffff:172.16.156.83",
+            "lastLoginTime": 1675302236772,
+            "pwdErrNum": 0,
+            "pwd_change_time": "initialPassword",
+            "apply": {
+                "app": "gg",
+                "app_id": "a9b930c9d2634fcb84da0db1bf9266ed",
+                "app_key": "355793b9cb8e0529ada079e8b7acfcf7",
+                "app_secret": "6c645c3ed08d591f6a71e3b4ed8fc9d8"
+            }
+        },
+        "isAdmin": false,
+        "allowMultiLogin": false
+    }
+}

@@ -1,0 +1,83 @@
+version: '3.7'
+services:
+  gw:
+    build: ./
+    image: go-gw:v1
+    container_name: gw-bind-back-go
+    #volumes:
+      # 日志文件
+      #- ./logs:/usr/src/app/logs
+    environment:
+      # 网关端口号[common]
+       - APP_PORT=3000
+       - APP_CTRLPORT=3001
+       - APP_MAXCONN=1000
+       # APP_READ_TIMEOUT=5 second
+       - APP_READ_TIMEOUT=5
+       # APP_WRITE_TIMEOUT=10 second
+       - APP_WRITE_TIMEOUT=10
+       # APP_IDLE_TIMEOUT=30 second
+       - APP_IDLE_TIMEOUT=61
+      # APP_MAXCPUNUM: 建议设置为CPU核心数
+       - APP_MAXCPUNUM=8
+      # 日志 [log]
+       #- LOG_FILEPATH=logs
+       - LOG_FILEPATH=logs
+       - LOG_LEVEL=debug
+       - LOG_FILENAME=api-gw.log
+       # mongo <--- 日志
+       #- LOG_MONGO_URL=mongodb://user:pwd@localhost:port/
+       - LOG_MONGO_URL=mongodb://user1:123456@192.168.225.128:27017/
+       - LOG_MONGO_ENABLE=true
+      #  - LOG_MONGO_URL=mongodb://192.168.108.49:27017/
+      #  - LOG_MONGO_URL=mongodb://192.168.225.128:27017/
+      #  - LOG_MONGO_DATABASE=tms-api-gw-jh
+       - LOG_MONGO_DATABASE=tms-api-gw-user1
+       - LOG_MONGO_COLLECTION=tracelog
+       - LOG_MONGO_WORKER=10
+      # 代理设置 [proxy]
+       - PROXY_KEEPALIVE=0
+       - PROXY_AGENTOPTIONS=
+       #- PROXY_RULES={"/gw/svc/order/api/external/customMade":{"target":[{"url":"http://localhost:3000/order/api/external/customMade"}]},"/gw/svc/order/api/external/cloudport":{"target":[{"url":"http://localhost:3000/order/api/external/cloudport"}],"auth":["noauth"]},"/gw/svc/order/api/external/managerport":{"target":[{"url":"http://localhost:3000/order/api/external/managerport"}],"auth":["httpYz"],"trace":["mongodb_callticket"]},"/gw/svc/pool/api/external/servicer":{"target":[{"url":"http://localhost:3000/pool/api/external/servicer"}],"auth":["httpYz"]},"/gw/svc/pool":{"target":[{"url":"http://localhost:3330/pool"}],"auth":["httpService"]},"/gw/performance/noauth/performance":{"target":[{"url":"http://127.0.0.1:8089/performance"}],"auth":[]},"/gw/performance/auth/performance":{"target":[{"url":"http://127.0.0.1:8089/performance"}],"proxyTimeout":3000},"/gw/bind2/test":{"target":[{"url":"http://127.0.0.2:3000/etd/api/dev189"}],"quota":["rule_all"]},"/gw/bind/test":{"target":[{"url":"http://192.168.108.49:3000/etd/api/dev189"}],"quota":["rule_all"],"timeout":3000,"proxyTimeout":4000},"/gw/https_dev189":{"target":[{"url":"https://aly.test.cn:8033/rest/site/fe/user/get?site=platform"}],"auth":["noauth"]},"/gw/bind":{"target":[{"url":"http://192.168.108.49:8000/etd/api/dev189","label":"test111"},{"url":"http://127.0.0.1:3000/etd/api/dev189_2","label":"test222"},{"url":"http://127.0.0.1:3000/etd/api/dev189_3","label":"test333","default":true}],"trace":["mongodb"],"quota":["rule_test"]},"/pool_gateway/api/mongo/document/list":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189/bininsert2"}],"auth":["httpPortal"],"trace":["mongodb_callticket","http"],"transformRequest":["test"]},"/binding/insertBatch":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189"}],"auth":["httpYz"],"trace":["mongodb_callticket"],"quota":["rule_test"]},"/interact-gateway/api/recv/orderBack_crm":{"target":[{"url":"http://127.0.0.1:3730/it/api/recv/orderBack"}],"auth":["noauth"],"trace":["mongodb","http"],"transformRequest":[]},"/gw/auto/sync/order":{"target":[{"url":"http://127.0.0.1:3330/oauth"}],"auth":["noauth"]},"/gw/svc/txybsn":{"target":[{"url":"http://127.0.0.1:3000/serviceRelation/TXYB/selectNum"}]},"/gw/svc/txybdn":{"target":[{"url":"http://127.0.0.1:3000/serviceRelation/TXYB/deleteNum"}]},"/gw/svc/sn":{"target":[{"url":"http://127.0.0.1:3000/dev189/selectNum"}]},"/gw/svc/dn":{"target":[{"url":"http://127.0.0.1:3000/service/deleteNum"}]},"/gw/svc/gi":{"target":[{"url":"http://127.0.0.1:3000/service/getInfo"}]},"/servicepro/token":{"target":[{"url":"http://127.0.0.1:8088/oauth/ue/auth/authenticate"}],"auth":["noauth"],"transformRequest":["getToken"]},"/callticket/down":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189"}],"auth":["httpService"],"trace":["mongodb_callticket"],"transformRequest":["callticket_down"]},"/gw/auto/sync/binding":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189"}],"auth":["httpYz"],"trace":["mongodb"]},"/gw_bind":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189"}],"transformRequest":["binding"]},"/gw/auto/sync/voicemessage":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189/voicemessage"}],"auth":["httpYz"],"trace":["mongodb","http"],"transformResponse":["test"]},"/gw/hujiao":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189/voicemessage"}],"auth":["createCust"],"trace":["mongodb"],"quota":["rule_all"]},"/gw/rela/serviceRelation/AXN":{"target":[{"url":"http://192.168.108.49:8000/etd/api/dev189"}],"auth":["httpYz"],"transformRequest":["binding","pa_hj","test"],"transformResponse":["test_ase","pa_hj"],"trace":["mongodb"]},"/gw/rela2":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189"}],"auth":[]}}
+       - PROXY_RULES={"/gw/bind/insert":{"target":[{"url":"http://192.168.108.49:8000"}]},"/gw/bind/remove":{"target":[{"url":"http://10.135.82.195:12320"}]},"/gw/bind/zj_del":{"target":[{"url":"http://10.135.82.195:12320"}]},"/gw/rela/serviceRelation/AXN":{"target":[{"url":"http://192.168.108.49:8000/serviceRelation/AXN"}],"transformRequest":["binding","pa_hj"],"transformResponse":["pa_hj"]},"/gw/rela":{"target":[{"url":"http://192.168.108.49:8000"}]},"/gw/bind/query":{"target":[{"url":"http://10.135.82.195:12320"}]}}
+       #- PROXY_RULES={"/gw/svc/order/api/external/customMade":{"target":[{"url":"http://localhost:3000/order/api/external/customMade"}]},"/gw/svc/order/api/external/cloudport":{"target":[{"url":"http://localhost:3000/order/api/external/cloudport"}],"auth":["noauth"]},"/gw/svc/order/api/external/managerport":{"target":[{"url":"http://localhost:3000/order/api/external/managerport"}],"auth":["httpYz"],"trace":["mongodb_callticket"]},"/gw/svc/pool/api/external/servicer":{"target":[{"url":"http://localhost:3000/pool/api/external/servicer"}],"auth":["httpYz"]},"/gw/svc/pool":{"target":[{"url":"http://localhost:3330/pool"}],"auth":["httpService"]},"/gw/performance/noauth/performance":{"target":[{"url":"http://127.0.0.1:8089/performance"}],"auth":[]},"/gw/performance/auth/performance":{"target":[{"url":"http://127.0.0.1:8089/performance"}],"proxyTimeout":3000},"/gw/bind2/test":{"target":[{"url":"http://127.0.0.2:3000/etd/api/dev189"}],"quota":["rule_all"]},"/gw/bind/test":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189"}],"quota":["rule_all"],"timeout":3000,"proxyTimeout":4000},"/gw/https_dev189":{"target":[{"url":"https://aly.test.cn:8033/rest/site/fe/user/get?site=platform"}],"auth":["noauth"]},"/gw/bind":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189","label":"test111"},{"url":"http://127.0.0.1:3000/etd/api/dev189_2","label":"test222"},{"url":"http://127.0.0.1:3000/etd/api/dev189_3","label":"test333","default":true}],"trace":["mongodb"],"quota":["rule_test"]},"/pool_gateway/api/mongo/document/list":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189/bininsert2"}],"auth":["httpPortal"],"trace":["mongodb_callticket","http"],"transformRequest":["test"]},"/binding/insertBatch":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189"}],"auth":["httpYz"],"trace":["mongodb_callticket"],"quota":["rule_test"]},"/interact-gateway/api/recv/orderBack_crm":{"target":[{"url":"http://127.0.0.1:3730/it/api/recv/orderBack"}],"auth":["noauth"],"trace":["mongodb","http"],"transformRequest":[]},"/gw/auto/sync/order":{"target":[{"url":"http://127.0.0.1:3330/oauth"}],"auth":["noauth"]},"/gw/svc/txybsn":{"target":[{"url":"http://127.0.0.1:3000/serviceRelation/TXYB/selectNum"}]},"/gw/svc/txybdn":{"target":[{"url":"http://127.0.0.1:3000/serviceRelation/TXYB/deleteNum"}]},"/gw/svc/sn":{"target":[{"url":"http://127.0.0.1:3000/dev189/selectNum"}]},"/gw/svc/dn":{"target":[{"url":"http://127.0.0.1:3000/service/deleteNum"}]},"/gw/svc/gi":{"target":[{"url":"http://127.0.0.1:3000/service/getInfo"}]},"/servicepro/token":{"target":[{"url":"http://127.0.0.1:8088/oauth/ue/auth/authenticate"}],"auth":["noauth"],"transformRequest":["getToken"]},"/callticket/down":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189"}],"auth":["httpService"],"trace":["mongodb_callticket"],"transformRequest":["callticket_down"]},"/gw/auto/sync/binding":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189"}],"auth":["httpYz"],"trace":["mongodb"]},"/gw_bind":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189"}],"transformRequest":["binding"]},"/gw/auto/sync/voicemessage":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189/voicemessage"}],"auth":["httpYz"],"trace":["mongodb","http"],"transformResponse":["test"]},"/gw/hujiao":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189/voicemessage"}],"auth":["createCust"],"trace":["mongodb"],"quota":["rule_all"]},"/gw/rela/serviceRelation/AXN":{"target":[{"url":"http://192.168.108.32:3190/etd/api/dev189"}],"auth":["httpYz"],"transformRequest":["binding","pa_hj","test"],"transformResponse":["test_ase","pa_hj"],"trace":["mongodb"]},"/gw/rela2":{"target":[{"url":"http://127.0.0.1:3000/etd/api/dev189"}],"auth":[]}}
+      # 是否开启鉴权
+       - AUTH_ENABLE=true
+       #- AUTH_REDIS_MAIN: 1: main; 0: backup
+       - AUTH_REDIS_MAIN=0
+       #- AUTH_REDIS_HOST=192.168.108.49
+      #  - AUTH_REDIS_MAIN_HOST=192.168.108.49
+       - AUTH_REDIS_MAIN_HOST=192.168.225.128
+       - AUTH_REDIS_MAIN_PORT=6379
+       - AUTH_REDIS_MAIN_PASSWORD=
+       - AUTH_REDIS_BACKUP_HOST=192.168.108.58
+       - AUTH_REDIS_BACKUP_PORT=6379
+       - AUTH_REDIS_BACKUP_PASSWORD=
+       #- AUTH_REDIS_READTIMEOUT=500 (millisecond)
+       - AUTH_REDIS_READTIMEOUT=500
+       #- AUTH_CUSTLABELFIELD=label   从哪个字段中获取用户账号信息的标签
+       - AUTH_CUSTLABELFIELD=label
+       #- AUTH_CUSTIDFIELD=cust_id     从哪个字段中获取用户ID的标签
+       - AUTH_CUSTIDFIELD=cust_id
+       #- AUTH_CUSTID_PINGAN=pingan  平安客户ID
+       - AUTH_CUSTID_PINGAN=00002121
+      # 是否开启请求拦截器
+       - TMS_TRACEFORNREQ_ENABLE=true
+       - TMS_METRICS_ENABLE=true  是否开启指标服务
+      # 是否开启响应拦截器
+       - TMS_TRACEFORNRES_ENABLE=true
+      # 黑名单配置
+      # 黑名单配置文件名称
+       - BLACKLIST_CONFIG_NAME=blacklist.json
+      # 黑名单配置本地缓存custid最大数量
+       - BLACKLIST_CONFIG_CACHE_CUSTID_MAX=10000
+      # 黑名单配置本地缓存token最大数量
+       - BLACKLIST_CONFIG_CACHE_TOKEN_MAX=2
+      #  - BLACKLIST_CONFIG_CACHE_TOKEN_MAX=10000
+      # 黑名单配置TOKEN本地缓存过期时间，单位：秒
+      #  - BLACKLIST_CONFIG_TOKEN_EXPIRATION_TIME=7200
+       - BLACKLIST_CONFIG_TOKEN_EXPIRATION_TIME=60
+    restart: always
+    ports:
+      - '3190:3000'
+      - '3191:3001'
